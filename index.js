@@ -32,17 +32,18 @@ app.command("/pb-pokemonfact", async ({ command, ack, respond }) => {
     const conv_weight = response.data.weight/10
     const cry_url = response.data.cries.latest
     const onesDigit = response.data.id % 10
+    let numberEnding
     if (onesDigit === 1 && response.data.id !== 11) {
-      const numberEnding = "st"
+      numberEnding = "st"
     }
     else if (onesDigit === 2 && response.data.id !== 12){
-      const numberEnding = "nd"
+      numberEnding = "nd"
     }
     else if (onesDigit === 3 && response.data.id !== 13){
-      const numberEnding = "rd"
+      numberEnding = "rd"
     }
     else {
-      const numberEnding = "th"
+      numberEnding = "th"
     }
     await respond({text:`${response.data.name} is the ${response.data.id}${numberEnding} Pokémon in the Pokédex has a height of ${conv_height} meters, a weight of ${conv_weight} kilograms. You can hear its cry <${cry_url}|here>.`});
 
