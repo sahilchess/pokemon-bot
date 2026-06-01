@@ -1,7 +1,7 @@
 {
   "name": "pokemon-bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "a slack bot designed around pokemon",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,5 +14,13 @@
     "@slack/bolt": "^4.7.3",
     "axios": "^1.16.1",
     "dotenv": "^17.4.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sahilchess/pokemon-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sahilchess/pokemon-bot/issues"
+  },
+  "homepage": "https://github.com/sahilchess/pokemon-bot#readme"
 }

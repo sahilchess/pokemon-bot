@@ -21,20 +21,50 @@ app.command("/pb-help", async ({ ack, respond }) => {
 /pb-berrydeets - Get deets on a berry!`
   });
 });
-/*----------------------------------pokemon fact---------------------------------------------
-app.command("/pb-pokemonfact", async ({ ack, respond }) => {
+//----------------------------------pokemon fact---------------------------------------------
+app.command("/pb-pokemonfact", async ({ command, ack, respond }) => {
   await ack();
 
   try {
-    const response = await axios.get("eeeeeeeeeeeeeeeeee");
+    const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${command.text}`);
+    const conv_height = response.data.height/10
+    const conv_weight = response.data.weight/10
+    await respond({text:`${command} is the ${response.data.id}th Pokémon in the Pokédex has a height of ${conv_height} meters, a weight of ${conv_weight} kilograms. You can hear its cry here|${response.data.cries.latest}`});
 
   } catch (err) {
-    await respond({ text: "Failed to fetch a Pokémon fact." });
+    await respond({ text: "Failed to fetch a Pokémon info." });
   }
 });
-*/
+
+
 //--------------------------------list berries------------------------------------------------
-//pending
+app.command("/pb-list-berries", async ({ ack, respond }) => {
+  await ack();
+  await respond({
+    text: `Here are the berries you can ask about with /pb-berrydeets:
+- Cheri
+- Chesto
+- Pecha
+- Rawst
+- Aspear
+- Leppa
+- Oran
+- Persim
+- Lum
+- Sitrus
+- Figy
+- Wiki
+- Mago
+- Aguav
+- Iapapa
+- Razz
+- Bluk
+- Nanab
+- Wepear
+- Pinap`,
+  });
+});
+
 //-----------------------------berry facts--------------------------------------------------
 app.command("/pb-berrydeets", async ({ command, ack, respond }) => {
   await ack();
