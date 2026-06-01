@@ -16,9 +16,10 @@ app.command("/pb-help", async ({ ack, respond }) => {
   await respond({
     text:
 `Available Commands:
-/pb-ping - Check bot latency
-/pb-pokemonfact - Get a random Pokémon fact!
-/pb-berrydeets - Get deets on a berry!`
+/ pb-pokemonfact [pokemon name or id] - Get a fun fact about a Pokémon. Example: /pb-pokemonfact pikachu
+/ pb-berrydeets [berry name] - Get a fun fact about a Berry. Example: /pb-berrydeets oran
+/ pb-list-berries - List all the berries you can ask about with /pb-berrydeets
+/ pb-ping - Check the bot's latency`
   });
 });
 //----------------------------------pokemon fact---------------------------------------------
@@ -27,9 +28,23 @@ app.command("/pb-pokemonfact", async ({ command, ack, respond }) => {
 
   try {
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${command.text}`);
-    const conv_height = response.data.height/10
+    const conv_height = response.data.height/10 
     const conv_weight = response.data.weight/10
-    await respond({text:`${command} is the ${response.data.id}th Pokémon in the Pokédex has a height of ${conv_height} meters, a weight of ${conv_weight} kilograms. You can hear its cry here|${response.data.cries.latest}`});
+    const cry_url = response.data.cries.latest
+    const onesDigit = response.data.id % 10
+    if (onesDigit === 1 && response.data.id !== 11) {
+      const numberEnding = "st"
+    }
+    else if (onesDigit === 2 && response.data.id !== 12){
+      const numberEnding = "nd"
+    }
+    else if (onesDigit === 3 && response.data.id !== 13){
+      const numberEnding = "rd"
+    }
+    else {
+      const numberEnding = "th"
+    }
+    await respond({text:`${response.data.name} is the ${response.data.id}${numberEnding} Pokémon in the Pokédex has a height of ${conv_height} meters, a weight of ${conv_weight} kilograms. You can hear its cry <${cry_url}|here>.`});
 
   } catch (err) {
     await respond({ text: "Failed to fetch a Pokémon info." });
@@ -78,12 +93,20 @@ app.command("/pb-berrydeets", async ({ command, ack, respond }) => {
   }
 });
 //-------------------------ping------------------------------------------------------
-app.command("/pb-ping", async ({ command, ack, respond }) => {
+app.command("/pb-ping", async ({ack, respond }) => {
   const start = Date.now();
   await ack();
   const latency = Date.now() - start;
   await respond({ text: `Pong!\nLatency: ${latency}ms` });
 });
+//---------------------startup  ----------------------------------------------------------
+
+app.command("/pb-joke", async ({ack, respond }) => {
+  await ack();
+  const response = await axios.get("https://official-joke-api.appspot.com/random_joke");
+  await respond({ text: `${response.data.setup}\n${response.data.punchline}` });
+});
+
 //---------------------startup  ----------------------------------------------------------
 (async () => {
   await app.start();
