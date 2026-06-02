@@ -52,7 +52,6 @@ app.command("/pb-pokemonfact", async ({ command, ack, respond }) => {
   }
 });
 
-
 //--------------------------------list berries------------------------------------------------
 app.command("/pb-list-berries", async ({ ack, respond }) => {
   await ack();
